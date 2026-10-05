@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Contacto</title>
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+  <h1>Editar Contacto</h1>
+
+  <form action="/contacts/edit/<%= contact.id %>" method="POST" style="max-width: 400px;">
+    <div>
+      <label for="nombre">Nombre:</label><br>
+      <input type="text" id="nombre" name="nombre" value="<%= contact.nombre %>" required style="width: 100%; margin-bottom: 10px;">
+    </div>
+    <div>
+      <label for="telefono">Teléfono:</label><br>
+      <input type="text" id="telefono" name="telefono" value="<%= contact.telefono %>" required style="width: 100%; margin-bottom: 10px;">
+    </div>
+    <div>
+      <label for="email">E-mail:</label><br>
+      <input type="email" id="email" name="email" value="<%= contact.email %>" required style="width: 100%; margin-bottom: 10px;">
+    </div>
+    <div>
+      <label for="provincia">Provincia:</label><br>
+      <input type="text" id="provincia" name="provincia" value="<%= contact.provincia %>" required style="width: 100%; margin-bottom: 15px;">
+    </div>
+
+    <button type="submit" class="btn">Actualizar Contacto</button>
+    <a href="/contacts" class="btn" style="background-color: gray;">Cancelar</a>
+  </form>
+</body>
+</html>
