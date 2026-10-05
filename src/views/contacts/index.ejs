@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contactos</title>
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+
+  <h1>Contactos</h1>
+  <h2>Bienvenido a la web de contactos.</h2>
+  <p>Página de inicio</p>
+  <p><strong><%= user ? 'Logueado' : 'No logueado' %></strong></p>
+
+  <div class="actions-bar">
+    <a href="#" class="btn">Login</a>
+    <a href="#" class="btn">Logout</a>
+    <a href="#" class="btn">Register</a>
+    <a href="/contacts/new" class="btn">Añadir Contacto Nuevo</a>
+  </div>
+
+  <% contacts.forEach(contacto => { %>
+    <div class="contact-card">
+      <ul>
+        <li><strong><%= contacto.nombre %></strong></li>
+        <li><strong>Teléfono:</strong> <%= contacto.telefono %></li>
+        <li><strong>E-mail:</strong> <%= contacto.email %></li>
+        <li><strong>Provincia:</strong> <%= contacto.provincia %></li>
+      </ul>
+      <a href="/contacts/edit/<%= contacto.id %>" class="btn">Editar</a>
+      <form action="/contacts/delete/<%= contacto.id %>" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-danger">Borrar</button>
+      </form>
+    </div>
+  <% }) %>
+
+</body>
+</html>
