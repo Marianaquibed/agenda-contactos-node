@@ -1,3 +1,4 @@
+require('dotenv').config(); // Carga las variables de entorno
 const express = require('express');
 const path = require('path');
 const contactRoutes = require('./routes/contactRoutes');

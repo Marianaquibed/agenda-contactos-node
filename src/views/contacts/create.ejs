@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Añadir Nuevo Contacto</title>
   <link rel="stylesheet" href="/css/estilos.css">
 </head>
@@ -23,8 +22,13 @@
       <input type="email" id="email" name="email" required style="width: 100%; margin-bottom: 10px;">
     </div>
     <div>
-      <label for="provincia">Provincia:</label><br>
-      <input type="text" id="provincia" name="provincia" required style="width: 100%; margin-bottom: 15px;">
+      <label for="provincia_id">Provincia:</label><br>
+      <select id="provincia_id" name="provincia_id" required style="width: 100%; margin-bottom: 15px; padding: 8px;">
+        <option value="">-- Selecciona una provincia --</option>
+        <% provincias.forEach(p => { %>
+          <option value="<%= p.id %>"><%= p.nombre %></option>
+        <% }) %>
+      </select>
     </div>
 
     <button type="submit" class="btn">Guardar Contacto</button>
