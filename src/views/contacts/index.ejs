@@ -2,38 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contactos</title>
   <link rel="stylesheet" href="/css/estilos.css">
 </head>
 <body>
-
   <h1>Contactos</h1>
   <h2>Bienvenido a la web de contactos.</h2>
   <p>Página de inicio</p>
-  <p><strong><%= user ? 'Logueado' : 'No logueado' %></strong></p>
 
-  <div class="actions-bar">
-    <a href="#" class="btn">Login</a>
-    <a href="#" class="btn">Logout</a>
-    <a href="#" class="btn">Register</a>
+  <p><strong><%= user ? `Logueado como: ${user.email}` : 'No logueado' %></strong></p>
+
+  <div class="actions-bar" style="margin-bottom: 20px;">
+    <a href="/security/login" class="btn">Login</a>
+    <a href="/security/logout" class="btn">Logout</a>
+    <a href="/register" class="btn">Register</a>
     <a href="/contacts/new" class="btn">Añadir Contacto Nuevo</a>
   </div>
 
-  <% contacts.forEach(contacto => { %>
-    <div class="contact-card">
-      <ul>
-        <li><strong><%= contacto.nombre %></strong></li>
-        <li><strong>Teléfono:</strong> <%= contacto.telefono %></li>
-        <li><strong>E-mail:</strong> <%= contacto.email %></li>
-        <li><strong>Provincia:</strong> <%= contacto.provincia %></li>
-      </ul>
-      <a href="/contacts/edit/<%= contacto.id %>" class="btn">Editar</a>
-      <form action="/contacts/delete/<%= contacto.id %>" method="POST" style="display:inline;">
-        <button type="submit" class="btn btn-danger">Borrar</button>
-      </form>
+  <% contacts.forEach(contact => { %>
+    <ul style="list-style-type: disc; margin-bottom: 10px;">
+      <li><strong><%= contact.nombre %></strong></li>
+      <li><strong>Teléfono:</strong> <%= contact.telefono %></li>
+      <li><strong>E-mail:</strong> <%= contact.email %></li>
+      <li><strong>Provincia:</strong> <%= contact.provincia %></li>
+    </ul>
+
+    <!-- Los botones Editar y Borrar se muestran SIEMPRE -->
+    <div style="margin-bottom: 20px;">
+      <a href="/contacts/edit/<%= contact.id %>" class="btn">Editar</a>
+      <a href="/contacts/delete/<%= contact.id %>" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este contacto?')">Borrar</a>
     </div>
   <% }) %>
-
 </body>
 </html>

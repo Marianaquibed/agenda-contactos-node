@@ -1,19 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const contactController = require('../controllers/contactController');
+const { requireAuth } = require('../middlewares/auth');
 
-// READ: Listado
+// Rutas PÚBLICAS: Listado y Formulario de creación
 router.get('/', contactController.getAll);
-
-// CREATE: Mostrar formulario y recibir datos del envío
-router.get('/new', contactController.renderCreateForm);
+router.get('/new', contactController.renderCreate);
 router.post('/new', contactController.create);
 
-// UPDATE: Mostrar formulario de edición y recibir actualización
-router.get('/edit/:id', contactController.renderEditForm);
-router.post('/edit/:id', contactController.update);
+// Rutas PROTEGIDAS: Solo usuarios logueados pueden editar o eliminar.
+// Si un visitante no logueado pulsa el botón, requireAuth lo redirige a /security/login
+router.get('/edit/:id', requireAuth, contactController.renderEdit);
+router.post('/edit/:id', requireAuth, contactController.update);
 
-// DELETE: Procesar borrado
-router.post('/delete/:id', contactController.delete);
+router.get('/delete/:id', requireAuth, contactController.delete);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const db = require('../config/db');
 
 module.exports = {
-  // 1. READ: Listar contactos uniendo la tabla provincias (INNER JOIN)
+  // Listar todos los contactos (Público)
   getAll: async (req, res) => {
     try {
       const [contacts] = await db.query(`
@@ -9,24 +9,29 @@ module.exports = {
         FROM contactos c
         INNER JOIN provincias p ON c.provincia_id = p.id
       `);
-      res.render('contacts/index', { contacts, user: null });
+      
+      res.render('contacts/index', { 
+        contacts, 
+        user: req.session.user || null 
+      });
     } catch (error) {
-      console.error(error);
+      console.error('Error al listar contactos:', error);
       res.status(500).send('Error al consultar los contactos');
     }
   },
 
-  // 2. CREATE: Cargar provincias en el select y guardar contacto
-  renderCreateForm: async (req, res) => {
+  // Formulario para crear contacto (Público)
+  renderCreate: async (req, res) => {
     try {
       const [provincias] = await db.query('SELECT * FROM provincias');
-      res.render('contacts/create', { provincias });
+      res.render('contacts/create', { provincias, error: null });
     } catch (error) {
       console.error(error);
-      res.status(500).send('Error al cargar provincias');
+      res.status(500).send('Error al cargar formulario');
     }
   },
 
+  // Guardar nuevo contacto (Público)
   create: async (req, res) => {
     try {
       const { nombre, telefono, email, provincia_id } = req.body;
@@ -37,26 +42,24 @@ module.exports = {
       res.redirect('/contacts');
     } catch (error) {
       console.error(error);
-      res.status(500).send('Error al guardar contacto');
+      res.status(500).send('Error al crear el contacto');
     }
   },
 
-  // 3. UPDATE: Cargar contacto y lista de provincias
-  renderEditForm: async (req, res) => {
+  // Formulario para editar contacto (Protegido)
+  renderEdit: async (req, res) => {
     try {
       const { id } = req.params;
       const [[contact]] = await db.query('SELECT * FROM contactos WHERE id = ?', [id]);
       const [provincias] = await db.query('SELECT * FROM provincias');
-
-      if (!contact) return res.redirect('/contacts');
-
-      res.render('contacts/edit', { contact, provincias });
+      res.render('contacts/edit', { contact, provincias, error: null });
     } catch (error) {
       console.error(error);
-      res.status(500).send('Error al cargar el formulario de edición');
+      res.status(500).send('Error al cargar el contacto');
     }
   },
 
+  // Actualizar contacto (Protegido)
   update: async (req, res) => {
     try {
       const { id } = req.params;
@@ -72,7 +75,7 @@ module.exports = {
     }
   },
 
-  // 4. DELETE: Eliminar contacto por ID
+  // Borrar contacto (Protegido)
   delete: async (req, res) => {
     try {
       const { id } = req.params;
@@ -80,7 +83,7 @@ module.exports = {
       res.redirect('/contacts');
     } catch (error) {
       console.error(error);
-      res.status(500).send('Error al eliminar contacto');
+      res.status(500).send('Error al eliminar el contacto');
     }
   }
 };
