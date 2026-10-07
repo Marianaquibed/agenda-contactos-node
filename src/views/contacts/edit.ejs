@@ -32,6 +32,18 @@
       </select>
     </div>
 
+    <div>
+      <label for="pais_id">País:</label><br>
+      <select id="pais_id" name="pais_id" required style="width: 100%; margin-bottom: 15px; padding: 8px;">
+        <% paises.forEach(p => { %>
+          <option value="<%= p.id %>" <%= p.id === contact.pais_id ? 'selected' : '' %>>
+            <%= p.nombre %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+
+
     <button type="submit" class="btn">Actualizar Contacto</button>
     <a href="/contacts" class="btn" style="background-color: gray;">Cancelar</a>
   </form>
